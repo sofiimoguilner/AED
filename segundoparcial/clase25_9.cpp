@@ -3,8 +3,11 @@ using namespace std;
 
 // Definición de la estructura Nodo
 struct Nodo {
+
     string cancion;
+    registro* r;
     Nodo* siguiente;
+    
 };
 
 //struct de punt 3
@@ -13,7 +16,7 @@ struct registro
 {
     string tilulo;
     string artista;
-    int calificacion;
+    int calificacion; //estrellas
 
 };
 
