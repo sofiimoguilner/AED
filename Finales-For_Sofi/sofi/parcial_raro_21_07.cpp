@@ -23,7 +23,7 @@ struct Categoria
 struct Pregunta{
     bool excluyente;
     char pregunta[50];
-    int opcion;
+    int respuesta;
 };
 
 struct Aprobadas{
@@ -46,26 +46,48 @@ int main()
 };
 
 // la finalidad es q devuelva una lista
-NodoAprobadas* LicenciasAprobadas(Solicitud solicitud[], Categoria vec[],int resultados[][42]) //para matrices en funciones siempre poner el nro de columnas
+NodoAprobadas* LicenciasAprobadas(Solicitud sol[], Categoria vec[],int resultados[][42]) //para matrices en funciones siempre poner el nro de columnas
 {
     //veo si solicitud esta apta
     for (int i = 0; i < SOLICITUDES; i++)
     {
+        bool rechazado = false;// nos va servir para en el if tener en cta lo del 0 y 1, donde 0 es que no es apta
         // tengo en cuenta que los test pscotecnicos y practicos son excluyentes y son las dos primeras columnas de la matriz
         //pscotecnico -> [i][0] practico-> [i][1]
         if (resultados[i][0]== 1 && resultados[i][1]== 1)
         {
+            int puntos =0;
+           
             for (int j = 0; j < 40; j++)
             {
-                if(vec.[solicitud[i].])
-            }
+                
+                int respuesta_correcta = vec[i].preguntas.respuesta;//rta correcta, nos va a simplificar el if
+                if(vec[sol[i].categoria-1].preguntas[j].excluyente && resultados[i][j+2] != respuesta_correcta)
+                {
+                    rechazado = true;
+                };
+
+                if(!vec[sol[i].categoria-1].preguntas[j].excluyente && resultados[i][j+2] == respuesta_correcta)
+                {
+                   puntos++;// suma puntos de las respuestas correctas no excluyentes ya que cada categoria nec una cierta cant de estas para aprobar 
+                };
+            };
             
         }else 
         {
-            cout<<"bochado"<<endl;
+            rechazado = true;
         }
-        
-        
+        if(vec[sol[i].categoria] < 4 && puntos < 25)
+        {
+            rechazado = true;
+        }
+        if(vec[sol[i].categoria] > 3 && puntos < 30){
+            rechazado = true;
+        }
+        if(!rechazado)
+        {
+            insertarOrdenado(lista,sol[i])
+        }
         
     }
     
