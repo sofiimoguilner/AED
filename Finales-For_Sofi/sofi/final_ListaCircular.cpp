@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <cstring>
 
 using namespace std;
 
@@ -27,8 +28,8 @@ struct NodoPasajero
 };
 
 void ingresarPasajero(NodoPasajero*& lista, Pasajero pasasjero);
-void visualizarPasajero(NodoPasajero*& lista, char nombre []);
-void visualizarListaDestino(NodoPasajero*& lista, char destino[]);
+NodoPasajero* visualizarPasajero(NodoPasajero* cabeza_de_lista, char nombre []);
+void visualizarListaDestino(NodoPasajero* cabeza_lista, char destino[]);
 void eliminarPasajero (NodoPasajero *&lista, char nombre[]);
 void modificarDatosPas(NodoPasajero*& lista, char nombre[]);
 
@@ -50,10 +51,40 @@ int main(){
 
     switch(rta){
 
-        case (1):
-         cout<<"Ingreso de nuevo pasajero"<<
-         ingresarPasajero();
-        
+         case (1):
+               ingresarPasajero(lista);
+
+         break;
+
+         case(2):
+              char nombre[40];
+              cout<<"Nombre del pasajero a visualizar";
+              cin>> nombre;
+              visualizarPasajero(lista, nombre);
+         break;
+
+         case (3):
+              char destino[30];
+              cout<<"Destno a visualizar";
+              cin>>destino;
+              visualizarListaDestino(lista, destino);
+         break;
+
+         case(4):
+              char nombre[40];
+              cout<< "Pasajero a eliminar";
+              cin>>nombre;
+              eliminarPasajero(lista, nombre);
+         break;
+
+         case(5):
+             char nombre[40];
+              cout<< "Pasajero a Modificar";
+              cin>>nombre;
+              modificarDatosPas(lista,nombre);
+
+         break;
+             
     }
 
 }
@@ -82,8 +113,9 @@ void ingresarPasajero(NodoPasajero*& lista)
     cout<<"Min: ";
     cin>>pasajero.llegada.mm;
     NodoPasajero *nuevoPasajero = new NodoPasajero;
-    nuevoPasajero->info.nombre = pasajero.nombre;
-    nuevoPasajero->info.vuelo =pasajero.vuelo;
+    strcpy(nuevoPasajero->info.nombre ,pasajero.nombre);
+    strcpy(nuevoPasajero->info.destino, pasajero.destino);
+    strcpy(nuevoPasajero->info.vuelo , pasajero.vuelo);
     nuevoPasajero->info.asiento =pasajero.asiento;
     nuevoPasajero->info.salida = pasajero.salida;
     nuevoPasajero->info.llegada = pasajero.llegada;
@@ -100,10 +132,109 @@ void ingresarPasajero(NodoPasajero*& lista)
     }
 };
 
-void visualizarPasajero(NodoPasajero*& lista, char nombre [])
+NodoPasajero* visualizarPasajero(NodoPasajero* cabeza_de_lista, char nombre [])
 {
+    if(cabeza_de_lista == NULL)
+    {
+        return NULL;
+    };
+    
+    NodoPasajero* aux = cabeza_de_lista;
+
+    do 
+    {
+        if(strcmp(aux->info.nombre , nombre)== 0)
+        {
+            return aux;
+
+        }else aux->sgte = aux;
+    }while (aux != cabeza_de_lista);
     
 };
-void visualizarListaDestino(NodoPasajero*& lista, char destino[]);
-void eliminarPasajero (NodoPasajero *&lista, char nombre[]);
-void modificarDatosPas(NodoPasajero*& lista, char nombre[]);
+
+
+void visualizarListaDestino(NodoPasajero* cabeza_lista, char destino[])
+{ 
+    if(cabeza_lista == NULL)
+    {
+        cout<<"Lista vacia"<<endl;
+    }
+
+    NodoPasajero* aux = cabeza_lista;
+
+    if (strcmp(aux->info.destino , destino)==0)
+    {
+        cout<< aux<<endl;
+        aux->sgte = aux;
+    }
+    else
+    {
+        aux->sgte = aux;
+    }
+};
+void eliminarPasajero (NodoPasajero *&lista, char nombre[])
+{
+    NodoPasajero* aux = lista;
+    NodoPasajero* auxiliar2;
+
+    do 
+    {
+        auxiliar2 = aux;
+        aux = aux->sgte;
+    }while (aux!=NULL && strcmp(aux->info.nombre, nombre)!=0);
+    
+    if(aux!= NULL && strcmp(aux->info.nombre , nombre)==0)
+    {
+        if(aux!=lista)
+        {
+            auxiliar2->sgte = aux->sgte;
+        }
+        else
+        {
+            lista = aux->sgte;
+        }
+
+        delete aux;
+
+    }
+    
+};
+void modificarDatosPas(NodoPasajero*& lista, char nombre[])
+{
+    if(lista == NULL)
+    {
+        cout<<"Lista Vacia";
+    
+    };
+    
+    NodoPasajero* aux = lista;
+
+    do 
+    {
+        if(strcmp(aux->info.nombre, nombre) == 0)
+        {
+             cout<<"Ingrese los datos del pasajero "<<nombre<<" nuevamente";
+             cout<<"Ingrese Destino: ";
+             cin>>aux->info.destino;
+             cout<<"Ingrese Vuelo: ";
+             cin>>aux->info.vuelo;
+             cout<<"Asiento: ";
+             cin>>aux->info.asiento ;
+              cout<<"Ingrese fecha de salida: Dia: ";
+             cin>>aux->info.salida.dia;
+             cout<<"Hora: ";
+             cin>>aux->info.salida.hh;
+             cout<<"Min: ";
+             cin>>aux->info.salida.mm;
+             cout<<"Ingrese fecha de llegada: Dia: ";
+             cin>>aux->info.llegada.dia;
+             cout<<"Hora: ";
+             cin>>aux->info.llegada.hh;
+             cout<<"Min: ";
+             cin>>aux->info.llegada.mm;
+             
+
+
+        }else aux->sgte = aux;
+    }while(aux != lista);
+};
