@@ -237,4 +237,4 @@ void modificarDatosPas(NodoPasajero*& lista, char nombre[])
 
         }else aux->sgte = aux;
     }while(aux != lista);
-};
+}; 
