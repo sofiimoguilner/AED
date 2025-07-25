@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstring>
+#include <string.h>
 #include <stdio.h>
 
 using namespace std;
@@ -97,7 +97,7 @@ void elementoMinimo(colasPrioriedad& frente)
     {
         if (frente.frente[i]->info.prioriedad != NULL)
         {
-            cout<<"Paciente de mayor prioriedad "<<frente.frente[i]->info<<endl;
+            cout<<"Paciente de mayor prioriedad "<<frente.frente[i]->info;
         }
         cout<<"no hay pacientes en la cola"<<endl;
     }
@@ -119,11 +119,30 @@ void quitarMinimo(colasPrioriedad& colas){
             colas.fin[i] == NULL;
         };
         
-        delete aux
+        delete aux;
 
     }
 
 };
-bool colaVacia();
-void prioriedadVacia();
+
+bool colaVacia(colasPrioriedad* cola, int cola_vacia)
+{
+    if (cola->frente[cola_vacia] == NULL)
+    {
+        return true;
+    }else return false;
+};
+
+void prioriedadVacia(colasPrioriedad* cola)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        if(cola->frente[i]!= NULL)
+        {
+            return false; // alguna cola por lo menos no esta vacia
+        };
+    };
+    return true;
+    
+};
 
