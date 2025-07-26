@@ -24,7 +24,50 @@ int main(){
 
 }
 
-NodoTrabajo* listaAprobados();
+NodoTrabajo* listaAprobados(NodoTrabajo categorias[])
+{
+    NodoTrabajo* lista = NULL; // aca inicializamos la lista que vamos 
+    NodoTrabajo* ult = NULL ;
+    
+    for (int i = 0; i < 5; i++)
+    {
+        NodoTrabajo* actual = categorias[i];
+
+        while (actual!=NULL)
+        {
+            bool aprobado = false;
+
+            for (int j = 0; j < 3; ++)
+            {
+                if (actual->info.resultado[j] == "Aprobado totalmente" || actual->info.resultado[j] == "Aprobado requiere modificaciones")
+                {
+                    aprobado = true;
+                }   
+            } 
+            if(aprobado)
+            {
+                //creo nuevo nodo para meter en la lista
+
+                NodoTrabajo* nuevo = new NodoTrabajo;
+                nuevo->info = actual->info;
+                nuevo->sgte = NULL;
+
+                if(lista == NULL)
+                {
+                    lista = ult = nuevo;
+                }else
+                {
+                    ult->sgte = nuevo;
+                    ult = nuevo;
+                }
+            }
+
+            actual = actual->sgte;
+        } 
+    }
+
+    return lista;
+};
 
 void dictamen(NodoTrabajo* categorias[], int puntajes[],int id_evaluador,int categoria, char tituloTrabajo[])
 {
